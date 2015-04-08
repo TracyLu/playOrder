@@ -13,11 +13,11 @@ import sbt._
  */
 object myBuild extends Build {
 
-  lazy val mainProject = Project(
-    id="main",
+  lazy val codegen = Project(
+    id="codegen",
     base=file("codegen"),
     settings = Project.defaultSettings ++ Seq(
-      scalaVersion := "2.10.3",
+      scalaVersion := "2.11.4",
       libraryDependencies ++= List(
         "com.typesafe.slick" %% "slick" % "2.1.0",
         "com.typesafe.slick" %% "slick-codegen" % "2.1.0-RC3",
@@ -43,9 +43,7 @@ object myBuild extends Build {
     Seq(file(fname))
   }
 
-
-
-  lazy val root = (project in file(".")).enablePlugins(PlayScala).settings(
+  lazy val appMain = (project in file(".")).enablePlugins(PlayScala).settings(
     libraryDependencies ++= List(
     "com.typesafe.slick" %% "slick" % "2.1.0",
     "com.typesafe.slick" %% "slick-codegen" % "2.1.0-RC3",
@@ -127,7 +125,8 @@ object myBuild extends Build {
 
     // All work and no play...
     emojiLogs
-  )
+  ).dependsOn(codegen)
 
+  //override def rootProject = Some(appMain)
 
 }
